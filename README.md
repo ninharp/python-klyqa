@@ -1,19 +1,21 @@
-# python-klyqa
+# klyqa
 
-`python-klyqa` is a Python library for interacting with Klyqa REST-enabled devices. It allows users to manage and control Klyqa smart devices, such as smart bulbs, by interfacing with the Klyqa cloud and directly with devices on the local network.
+`klyqa` is a Python library for interacting with Klyqa REST-enabled devices. It allows users to manage and control Klyqa smart devices, such as smart bulbs, by interfacing with the Klyqa cloud and directly with devices on the local network.
 
 ## Installation
 
 You can install the library directly from the source:
 
 ```bash
-pip install python-klyqa
+pip install klyqa
 ```
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.12+
+- zeroconf
 - aiohttp
+- orjson
 - mashumaro
 
 ## Features
