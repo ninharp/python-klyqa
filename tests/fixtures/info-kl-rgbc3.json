@@ -1,0 +1,31 @@
+{
+  "chip_info": {
+    "version": "v5.1.3-dirty",
+    "model": "esp32c3",
+    "features": "802.11bgn, BLE"
+  },
+  "product_id": "@klyqa.lighting.kl-rgbc3.rgbcw",
+  "device_id": "001234567890",
+  "service_name": "KLYQA-567890",
+  "hw_revision": 2,
+  "sdk_ver": "1.1.0.790",
+  "app_ver": "V2.0.1.99",
+  "build_date": "Sep  6 2024 09:21:38",
+  "branch": "main",
+  "order": 4,
+  "cloud": {
+    "host": "mqtt.test.qconnex.io",
+    "port": 8883,
+    "enabled": true
+  },
+  "local": {
+    "ip_address": "192.168.127.127",
+    "rest_port": 3333,
+    "ctrl_port": 32768
+  },
+  "geo": {
+    "timezone": "CET-1CEST,M3.5.0,M10.5.0/3",
+    "lat": 53.551086,
+    "lon": 9.993682
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "status",
+  "status": "on",
+  "mode": "rgb",
+  "color": {
+    "red": 255,
+    "green": 33,
+    "blue": 25
+  },
+  "temperature": 6185,
+  "brightness": {
+    "percentage": 100
+  },
+  "fade": {
+    "in": 0,
+    "out": 0
+  },
+  "power_on": 1,
+  "active_command": 65535,
+  "active_scene": "",
+  "open_slots": 16,
+  "fwversion": "V1.1.1.2009-dev",
+  "sdkversion": "V1.1.1.4",
+  "external": {
+    "port": 65501,
+    "channel": 1,
+    "universe": 1,
+    "autoreset": 5,
+    "mode": "EXT_OFF"
+  },
+  "wifi_parameters": {
+    "security": "WPA2_PSK_CCMP",
+    "rssi": 205,
+    "channel": 1
+  },
+  "error": []
+}
