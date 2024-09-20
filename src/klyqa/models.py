@@ -74,19 +74,6 @@ class ChipInfo(BaseModel):
     features: str
 
 
-# @dataclass
-# class CloudSettings(BaseModel):
-#     """Object holding the Klyqa Device settings in cloud.
-
-#     Attributes
-#     ----------
-#         device_name: Name of the device in the cloud
-
-#     """
-
-#     device_name: str
-
-
 @dataclass
 class CloudInfo(BaseModel):
     """Object holding the Klyqa device cloud information.
@@ -126,6 +113,21 @@ class GeoInfo(BaseModel):
     lat: float
     lon: float
 
+@dataclass
+class LocalInfo(BaseModel):
+    """Object holding the Klyqa Light device information.
+
+    This object holds information about the Klyqa Light.
+
+    Attributes
+    ----------
+        ip_address: IP Address of the device.
+        rest_port: Port of the REST interface
+        ctrl_port: Ctrl port of the REST interface (not used)
+    """
+    ip_address: str
+    rest_port: int
+    ctrl_port: int
 
 @dataclass
 # pylint: disable-next=too-many-instance-attributes
@@ -142,6 +144,7 @@ class Info(BaseModel):
         sdk_version: String containing the SDK version.
         hardware_revision: An integer indicating the board revision.
         product_id: The product name.
+        product_name: The friendly product name.
         device_id: Device ID of the Klyqa Light.
         service_name: Service name of the Klyqa Light.
         device_group: Device group string of the Klyqa Light.
@@ -160,16 +163,8 @@ class Info(BaseModel):
     product_id: str = field(metadata=field_options(alias="product_id"))
     device_id: str = field(metadata=field_options(alias="device_id"))
     service_name: str = field(metadata=field_options(alias="service_name"))
-    device_order: int = field(metadata=field_options(alias="order"))
-
+    product_name: str = field(metadata=field_options(alias="product_name"))
     chip_info: ChipInfo = field(metadata=field_options(alias="chip_info"))
-    cloud: CloudInfo = field(metadata=field_options(alias="cloud"))
-    geo: GeoInfo = field(metadata=field_options(alias="geo"))
-
-    device_group: str | None = field(
-        metadata=field_options(alias="group"), default=None
-    )
-
 
 class PowerOnBehavior(IntEnum):
     """Enum for the power on behavior of the Klyqa Light."""
@@ -222,6 +217,25 @@ class ExternalConfig:
     autoreset: int
     mode: str
 
+
+@dataclass
+class Settings(BaseModel):
+    """Object holding the Klyqa Light settings
+
+    Attributes
+    ----------
+
+    """
+    device_order: int = field(metadata=field_options(alias="order"))
+    device_name: str = field(metadata=field_options(alias="device_name"))
+    
+    cloud: CloudInfo = field(metadata=field_options(alias="cloud"))
+    local: LocalInfo = field(metadata=field_options(alias="local"))
+    geo: GeoInfo = field(metadata=field_options(alias="geo"))
+
+    device_group: str | None = field(
+        metadata=field_options(alias="group"), default=None
+    )
 
 @dataclass
 class State(BaseModel):
