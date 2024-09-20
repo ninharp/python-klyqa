@@ -11,3 +11,6 @@ class KlyqaConnectionError(KlyqaError):
 
 class KlyqaAuthenticationError(KlyqaError):
     """Klyqa Light Authentication exception."""
+
+class KlyqaDeviceNotFoundError(KlyqaError):
+    """Klyqa Cloud device not found exception."""

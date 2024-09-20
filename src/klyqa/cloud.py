@@ -2,18 +2,10 @@ import logging
 
 import aiohttp
 
+from .exceptions import KlyqaConnectionError, KlyqaDeviceNotFoundError, KlyqaError
+
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.DEBUG)
-
-# console_handler = logging.StreamHandler()
-# console_handler.setLevel(logging.DEBUG)  # Setze den Level des Handlers auf DEBUG
-
-# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# console_handler.setFormatter(formatter)
-
-# if not _LOGGER.handlers:
-#     _LOGGER.addHandler(console_handler)
-
+# _LOGGER.setLevel(logging.DEBUG)
 
 class KlyqaCloud:
     BASE_URL = "https://app-api.prod.qconnex.io"
@@ -37,7 +29,7 @@ class KlyqaCloud:
                 self.api_key = data.get("accountToken")
                 _LOGGER.debug("Login successful, API Key: %s", self.api_key)
                 return self.api_key
-            raise Exception(f"Login failed with status code: {resp.status}")
+            raise KlyqaConnectionError(f"Login failed with status code: {resp.status}")
 
     def get_api_key(self) -> str:
         """Get the API Key."""
@@ -46,7 +38,7 @@ class KlyqaCloud:
     async def get_devices(self) -> str:
         """Fetch devices from the cloud."""
         if not self.api_key:
-            raise Exception("Not logged in. Call login() first.")
+            raise KlyqaError("Not logged in. Call login() first.")
 
         devices_url = self.base_url + "/settings"
         headers = {"Authorization": f"Bearer {self.api_key}"}
@@ -56,7 +48,7 @@ class KlyqaCloud:
                 data = await resp.json()
                 devices = data.get("devices", [])
                 return devices
-            raise Exception(f"Failed to fetch devices with status code: {resp.status}")
+            raise KlyqaError(f"Failed to fetch devices with status code: {resp.status}")
 
     async def get_device_access_token(self, local_device_id) -> str:
         """Retrieve access token for a specific local device."""
@@ -64,7 +56,7 @@ class KlyqaCloud:
         for device in devices:
             if device.get("localDeviceId") == local_device_id:
                 return device.get("accessToken")
-        raise Exception(f"Device with localDeviceId {local_device_id} not found.")
+        raise KlyqaDeviceNotFoundError(f"Device with localDeviceId {local_device_id} not found.")
 
     async def get_device_name(self, local_device_id) -> str:
         """Retrieve access token for a specific local device."""
@@ -72,7 +64,7 @@ class KlyqaCloud:
         for device in devices:
             if device.get("localDeviceId") == local_device_id:
                 return device.get("name")
-        raise Exception(f"Device with localDeviceId {local_device_id} not found.")
+        raise KlyqaDeviceNotFoundError(f"Device with localDeviceId {local_device_id} not found.")
 
     async def close(self) -> None:
         await self.session.close()
