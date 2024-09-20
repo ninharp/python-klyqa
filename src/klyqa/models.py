@@ -163,8 +163,9 @@ class Info(BaseModel):
     product_id: str = field(metadata=field_options(alias="product_id"))
     device_id: str = field(metadata=field_options(alias="device_id"))
     service_name: str = field(metadata=field_options(alias="service_name"))
-    product_name: str = field(metadata=field_options(alias="product_name"))
     chip_info: ChipInfo = field(metadata=field_options(alias="chip_info"))
+
+    product_name: str | None = field(metadata=field_options(alias="product_name"), default="Klyqa Device")
 
 class PowerOnBehavior(IntEnum):
     """Enum for the power on behavior of the Klyqa Light."""
