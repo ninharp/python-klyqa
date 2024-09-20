@@ -16,17 +16,18 @@ _LOGGER.setLevel(logging.DEBUG)
 
 
 class KlyqaCloud:
-    BASE_URL = "https://app-api.test.qconnex.io"
+    BASE_URL = "https://app-api.prod.qconnex.io"
 
-    def __init__(self, email, password) -> None:
+    def __init__(self, email, password, base_url=None) -> None:
         self.email = email
         self.password = password
         self.api_key = None
+        self.base_url = base_url if base_url else self.BASE_URL
         self.session = aiohttp.ClientSession()
 
     async def login(self) -> str:
         """Login to the cloud and retrieve the API key."""
-        login_url = self.BASE_URL + "/auth/login"
+        login_url = self.base_url + "/auth/login"
         _LOGGER.debug("Trying to login at %s", login_url)
         payload = {"email": self.email, "password": self.password}
 
@@ -47,7 +48,7 @@ class KlyqaCloud:
         if not self.api_key:
             raise Exception("Not logged in. Call login() first.")
 
-        devices_url = self.BASE_URL + "/settings"
+        devices_url = self.base_url + "/settings"
         headers = {"Authorization": f"Bearer {self.api_key}"}
 
         async with self.session.get(devices_url, headers=headers) as resp:
