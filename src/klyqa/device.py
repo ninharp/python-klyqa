@@ -9,7 +9,7 @@ from yarl import URL
 import json
 
 from .exceptions import KlyqaConnectionError, KlyqaAuthenticationError, KlyqaError
-from .models import Info, RGBColor, State  # , PowerOnBehavior, Settings
+from .models import Info, RGBColor, State, Settings  # , PowerOnBehavior
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
@@ -221,6 +221,17 @@ class KlyqaDevice:
         """
         data = await self._request("system/info")
         return Info.from_json(data)
+    
+    async def settings(self) -> Settings:
+        """Get device settings from Klyqa Light device.
+
+        Returns
+        -------
+            A Info object, with settings from the Klyqa Light device.
+
+        """
+        data = await self._request("system/settings")
+        return Settings.from_json(data)
 
     async def state(self) -> State:
         """Get the current state of Klyqa Light device.
@@ -235,6 +246,12 @@ class KlyqaDevice:
         )
         # pylint: disable-next=no-member
         return State.from_json(data)
+    
+    async def change_device_name(self, new_name) -> None:
+        """Change the name of the Klyqa Light device."""
+        await self._request(
+            "system/settings", method=METH_PUT, data={"type": "device_name", "name": new_name}
+        )
 
     # pylint: disable-next=too-many-arguments
     async def light(
